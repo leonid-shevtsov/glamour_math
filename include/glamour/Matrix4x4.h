@@ -1,44 +1,20 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Определение класса Matrix4x4
- * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 21.08.2006
- */
 #ifndef GLA_Matrix4x4_h
 #define GLA_Matrix4x4_h
 
 #include "Vector3d.h"
 namespace Glamour
 {
-    /// Класс, реализующий матрицу 4x4
-    /**
-     * Матрицы 4x4 используются для описания трехмерных преобразований.
+    /** A 4 by 4 matrix 
+     *  Such matrices are used to describe three-dimensional transformations.
      *
-     * Класс оптимизирован для работы в пакетах трехмерной графики с
-     * использованием OpenGL. Поэтому он использует нормы нумерации,
-     * принятые в OpenGL:
-     * @image html mat4_i.png "Выборка элементов по 1 индексу"
-     * @image html mat4_ij.png "Выборка элементов по 2 индексам"
-     * Умножение на вектор производится такой формулой:
-     * @image html vec4_mat4.png "Умножение на вектор"
-     * Во избежание ошибок рекомендуется использовать функции
-     * applyToVector() и applyToPoint() для операций над векторами
-     * @note Загрузка матрицы @c GL_MODELVIEW в OpenGL сопровождается
-     * вычислением обратной матрицы (для операций с нормалями и
-     * плоскостями.) Поэтому загрузку @c GL_MODELVIEW можно упаковать в
-     * список отображения для улучшения производительности.
-     * @note Оператор * (умножение) рассчитан на аффинные матрицы.
-     * Если матрица требует изменения 4 координаты (w), или это
-     * неизвестно, нужно использовать mulMatrix.
-     * @note Для создания матриц поворотов рекомендуется использовать
-     * класс Quaternion
-     * @todo Перевести операции на ассемблер с MMX
-     * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
-     * @version 0.1
-     * @date 21.08.2006
+     *  This class is designed to be OpenGL-compatible, so it uses OpenGL indexing
+     *  conventions: column-first, row-second.
+     *
+     *  The * (multiplication) operator is expecting affine matrices. If the matrix
+     *  transforms the fourth coordinate, or if you are not sure if it does, use
+     *  the mulMatrix method instead
+     *
+     *  Use Quaternion objects to create rotation matrices.
      */
     class Matrix4x4
     {
