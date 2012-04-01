@@ -19,40 +19,13 @@ namespace Glamour
     class Matrix4x4
     {
     public:
-//==========================================================
-///@name Необходимые операции
-///@{
-        ///Конструктор по умолчанию
-        /**
-         * Создает единичную матрицу
-         */
-        Matrix4x4();
-        ///Конструктор копирования
-        /**
-         * @param from Исходный объект
-         */
-        Matrix4x4(const Matrix4x4& from);
-        ///Оператор присваивания
-        /**
-         * @param from Исходный объект
-         * @return Данный объект
-         */
-        Matrix4x4& operator=(const Matrix4x4& from);
-        ///Деструктор
-        ~Matrix4x4();
-///@}
-//==========================================================
-///@name Конструкторы
-///@{
-        /// Конструктор диагональной матрицы
-        /**
-         * @param a Значение элементов диагонали
+        /** Diagonal matrix constructor
+         *  @param a value of diagonal elements
          */
         Matrix4x4(const float a);
-        /// Поэлементный конструктор
-        /**
+        /** Per-element constructor
          */
-         Matrix4x4(
+        Matrix4x4(
             const float a00,const float a10,
             const float a20,const float a30,
             const float a01,const float a11,
@@ -61,177 +34,116 @@ namespace Glamour
             const float a22,const float a32,
             const float a03,const float a13,
             const float a23,const float a33);
-///@}
-//==========================================================
-///@name Свойства
-///@{
-    ///Выборка элемента по двум индексам
-    /**
-     * @param i Ряд
-     * @param j Колонка
-     * @return A[i,j]
-     * @note Индексы должны принадлежать отрезку [0..3]
-     * @warning Оператор не производит проверку на корректность индексов!
-     */
-    float& element(const int i,const int j);
-///@}
-//==========================================================
-///@name Операторы
-///@{
-    ///Выборка элемента по индексу
-    /**
-     * @param i Индекс элемента
-     * @return Ссылка на элемент
-     * @note Индекс должен принадлежать отрезку [0..15]
-     * @warning Оператор не производит проверку на корректность индекса!
-     */
-    float& operator[](const int i);
-    ///Преобразование в массив элементов
-    /**
-     * Полученный таким образом массив содержит 16 элементов и может быть
-     * использован как для записи, так и для чтения.
-     * @return Указатель на матрицу как на массив чисел
-     */
-    operator float*();
-    ///Умножение на число
-    /**
-     * @param k Коэффициент
-     * @return Результат операции
-     */
-    Matrix4x4& operator*=(const float k);
-    ///Матричное умножение
-    /**
-     * @param matrix Матрица-множитель
-     * @return Результат операции
-     */
-    Matrix4x4& operator*=(const Matrix4x4& matrix);
-    ///Умножение на число
-    /**
-     * Важно! Оптимизация подразумевает, что четвертые столбцы
-     * матриц пустые (т.е. w=const).
-     * Для полных расчетов используй mulMatrix
-     * @param matrix Матрица-множитель
-     * @param k Коэффициент
-     * @return Результат операции
-     */
-    friend Matrix4x4 operator*(const Matrix4x4& matrix,const float k);
-    ///Умножение на число
-    /**
-     * @param matrix Матрица-множитель
-     * @param k Коэффициент
-     * @return Результат операции
-     */
-    friend Matrix4x4 operator*(const float k,const Matrix4x4& matrix);
-    ///Матричное умножение
-    /**
-     * @param a Матрица-множитель
-     * @param b Матрица-множитель
-     * @return Результат операции
-     */
-    friend Matrix4x4 operator*(const Matrix4x4& a,const Matrix4x4& b);
-///@}
-//==========================================================
-///@name Операции
-///@{
-    ///Транспонирование непосредственно данной матрицы
-    void transpose();
-    ///Возвращает транспонированную матрицу
-    /**
-     * @return Транспонированная матрица
-     */
-    Matrix4x4 getTranspose();
-    ///Применение к вектору
-    /**
-     * @param v Вектор
-     * @return Преобразованный вектор
-     * @note Операция неприменима, если матрица
-     * изменяет однородную координату вектора @i w,
-     * например, если это матрица проекции.
-     */
-    Vector3d applyToVector(const Vector3d& v);
-    ///Применение к точке
-    /**
-     * @param p Вектор координат точки
-     * @return Преобразованная точка
-     * @note Операция неприменима, если матрица
-     * изменяет однородную координату вектора @i w,
-     * например, если это матрица проекции.
-     */
-    Vector3d applyToPoint(const Vector3d& p);
-    ///Применение к вектору с учетом W
-    /**
-     * @param v Вектор
-     * @return Преобразованный вектор
-     */
-    Vector3d applyToVectorW(const Vector3d& v);
-    ///Применение к точке с учетом W
-    /**
-     * @param p Вектор координат точки
-     * @return Преобразованная точка
-     */
-    Vector3d applyToPointW(const Vector3d& p);
-    ///Установка в GL_PROJECTION
-    void setAsGlProjection();
-    ///Установка в GL_MODELVIEW
-    void setAsGlModelview();
-    ///Сохранение GL_PROJECTION
-    void getGlProjection();
-    ///Сохранение GL_MODELVIEW
-    void getGlModelview();
 
-    Matrix4x4 mulMatrix(const Matrix4x4& m2);
-///@}
-//==========================================================
-///@name Фабрики
-///@{
-    ///Создает матрицу перемещения
-    /**
-     * @param t Вектор перемещения
-     * @return Матрица перемещения
-     */
-    static Matrix4x4 createTranslate(const Vector3d& t);
-    ///Создает матрицу масштабирования
-    /**
-     * @param s Вектор масштабирования
-     * @return Матрица масштабирования
-     */
-    static Matrix4x4 createScale(const Vector3d& s);
-    ///Создает матрицу вращения вокруг произвольной оси
-    /**
-     * @param a Угол
-     * @param r Вектор оси
-     * @return Матрица вращения
-     */
-    //static Matrix4x4 createRotate(const float a,const Vector3d& r);
-    ///Создает матрицу вращения вокруг оси X
-    /**
-     * @param a Угол
-     * @return Матрица вращения
-     */
-    static Matrix4x4 createRotateX(const float a);
-    ///Создает матрицу вращения вокруг оси Y
-    /**
-     * @param a Угол
-     * @return Матрица вращения
-     */
-    static Matrix4x4 createRotateY(const float a);
-    ///Создает матрицу вращения вокруг оси Z
-    /**
-     * @param a Угол
-     * @return Матрица вращения
-     */
-    static Matrix4x4 createRotateZ(const float a);
-///@}
-//==========================================================
-///@name Члены
-///@{
-    protected:
+        /** Element selector
+        *  Take care! There is no range checking.
+        *  TODO range checking in debug mode
+        *
+        *  @param i Row (0..3)
+        *  @param j Column (0..3)
+        *  @return reference to A[i,j]
+        */
+        float& element(const int i,const int j);
+
+        /** Element selector (single-index)
+         *  Take care! There is no range checking.
+         *  TODO range checking in debug mode
+         *  TODO more docs here
+         *
+         *  @param i Element index
+         *  @return reference to A[i] 
+         */
+        float& operator[](const int i);
+
+        /** Cast to a floating-point array
+         *  Returns a pointer to a 16-element array of matrix values.
+         *  The array is writable (modifications will affect the matrix). 
+         */
+        operator float*();
+
+        /** Multiplication by a number
+        */
+        Matrix4x4& operator*=(const float k);
+
+        /** Multiplication by a matrix
+        */
+        Matrix4x4& operator*=(const Matrix4x4& matrix);
+
+        friend Matrix4x4 operator*(const Matrix4x4& matrix,const float k);
+        friend Matrix4x4 operator*(const float k,const Matrix4x4& matrix);
+        friend Matrix4x4 operator*(const Matrix4x4& a,const Matrix4x4& b);
+
+        /** In-place transposition
+         */
+        void transpose();
+
+        /** Transposition into a new matrix
+         */
+        Matrix4x4 getTranspose();
+
+        /** Application to a vector (representing orientation)
+         *  If the matrix changes the W (fourth) coordinate of the vector,
+         *  i.e. it's a projection matrix, this method will produce wrong
+         *  results
+         */
+        Vector3d applyToVector(const Vector3d& v);
+
+        /** Application to a point (a vector representing position)
+         *  If the matrix changes the W (fourth) coordinate of the vector,
+         *  i.e. it's a projection matrix, this method will produce wrong
+         *  results
+         */
+        Vector3d applyToPoint(const Vector3d& p);
+
+        /** Application to a vector with computing W
+         *  Same as applyToVector, but with the fourth coordinate
+         */
+        Vector3d applyToVectorW(const Vector3d& v);
+
+        /** Application to a point with computing W
+         *  Same as applyToPoint, but with the fourth coordinate
+         */
+        Vector3d applyToPointW(const Vector3d& p);
+
+        /** Matrix multiplication
+         *  Straightforward mathematical matrix multiplication.
+         */
+        Matrix4x4 mulMatrix(const Matrix4x4& m2);
+
+        /** Translation matrix factory
+         */
+        static Matrix4x4 createTranslate(const Vector3d& t);
+
+        /** Scale matrix factory
+         */
+        static Matrix4x4 createScale(const Vector3d& s);
+
+        //static Matrix4x4 createRotate(const float a,const Vector3d& r);
+        
+        /** Rotation around X axis matrix factory
+         */
+        static Matrix4x4 createRotateX(const float a);
+
+        /** Rotation around Y axis matrix factory
+         */
+        static Matrix4x4 createRotateY(const float a);
+
+        /** Rotation around Z axis matrix factory
+         */
+        static Matrix4x4 createRotateZ(const float a);
+
     private:
         float data[16];
-///@}
-//==========================================================
+
+    public:
+        Matrix4x4();
+        Matrix4x4(const Matrix4x4& from);
+        Matrix4x4& operator=(const Matrix4x4& from);
+        ~Matrix4x4();
     };
-    ///Короткое название типа Matrix4x4
+
+    /** Shorthand name of the Matrix4x4 class
+     */
     typedef Matrix4x4 mat4;
 }
 #endif

@@ -1,17 +1,7 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса PerspectiveCamera
- * @author <a href="mailto:LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 11.09.2006
- */
-#include <math.h>
+#include <cmath>
 #include "glamour/PerspectiveCamera.h"
-using namespace Glamour;
-//==========================================================
-//Конструктор по умолчанию
+namespace Glamour {
+
 PerspectiveCamera::PerspectiveCamera():
     Camera(),
     theta(60),
@@ -20,23 +10,20 @@ PerspectiveCamera::PerspectiveCamera():
     zFar(10000.0)
 {
 }
-//==========================================================
-//Конструктор копирования
+
 PerspectiveCamera::PerspectiveCamera(const PerspectiveCamera& from)
 {
 }
-//==========================================================
-//Оператор присваивания
+
 PerspectiveCamera& PerspectiveCamera::operator=(const PerspectiveCamera& from)
 {
     return *this;
 }
-//==========================================================
-//Деструктор
+
 PerspectiveCamera::~PerspectiveCamera()
 {
 }
-//==========================================================
+
 PerspectiveCamera::PerspectiveCamera(
     const vec3& pos,
     const vec3& dir,
@@ -65,3 +52,5 @@ void PerspectiveCamera::build()
     );
     buildView();
 }
+
+} // namespace Glamour

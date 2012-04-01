@@ -1,45 +1,29 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса Quaternion
- * @author <a href="mailto:LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 27.09.2006
- */
-#include <math.h>
-
+#include <cmath>
 #include "glamour/Quaternion.h"
-namespace Glamour
-{
-//==========================================================
-//Конструктор по умолчанию
+namespace Glamour {
+
 Quaternion::Quaternion():
     w(1),
     v(0,0,0)
 {
 }
-//==========================================================
-//Конструктор копирования
 Quaternion::Quaternion(const Quaternion& from):
     w(from.w),
     v(from.v)
 {
 }
-//==========================================================
-//Оператор присваивания
+
 Quaternion& Quaternion::operator=(const Quaternion& from)
 {
     w=from.w;
     v=from.v;
     return *this;
 }
-//==========================================================
-//Деструктор
+
 Quaternion::~Quaternion()
 {
 }
-//==========================================================
+
 Quaternion::Quaternion(const Vector3d& _v):
     w(0.0),
     v(_v)
@@ -113,7 +97,7 @@ void Quaternion::makeRotate(float angle,const Vector3d& axis)
     w=cos(angle);
     v=axis.getNormalize()*sin(angle);
 }
-//simplified versions of the Rotates
+
 void Quaternion::makeRotateX(float angle)
 {
     angle/=2;
@@ -194,5 +178,5 @@ Vector3d Quaternion::applyToVector(const Vector3d& v)
     return (Vector3d)((*this)*quat(v)*(-(*this)));
 }
 
-} //namespace
+} //namespace Glamour
 

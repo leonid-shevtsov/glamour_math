@@ -1,44 +1,31 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса Vector2d
- * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 16.11.2006
- */
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include "glamour/Vector2d.h"
-namespace Glamour{
-//==========================================================
-//Конструктор по умолчанию
+
+namespace Glamour {
+
 Vector2d::Vector2d():
     x(0.0),y(0.0)
 {
 }
-//==========================================================
-//Конструктор копирования
+
 Vector2d::Vector2d(const Vector2d& from):
     x(from.x),
     y(from.y)
 {
 }
-//==========================================================
-//Оператор присваивания
+
 Vector2d& Vector2d::operator=(const Vector2d& from)
 {
     x=from.x;
     y=from.y;
     return *this;
 }
-//==========================================================
-//Деструктор
+
 Vector2d::~Vector2d()
 {
 }
-//==========================================================
-//Поэлементный конструктор
+
 Vector2d::Vector2d(const float X,const float Y):
     x(X),y(Y)
 {
@@ -48,7 +35,7 @@ Vector2d::Vector2d(const float f):
     x(f),y(f)
 {
 }
-//==========================================================
+
 float Vector2d::norm() const
 {
     return sqrt(x*x+y*y);
@@ -129,6 +116,7 @@ Vector2d::operator float*()
     return &x;
 }
 
+/*
 Vector2d Vector2d::randomCircleDelta(float radius)
 {
     return 0.0;
@@ -140,5 +128,6 @@ Vector2d Vector2d::randomSquareDelta(float side)
         (rand()/float(RAND_MAX)-0.5)*side,
         (rand()/float(RAND_MAX)-0.5)*side);
 }
+*/
 
-} //namespace
+} //namespace Glamour

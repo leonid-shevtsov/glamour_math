@@ -1,39 +1,26 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса OrthogonalCamera
- * @author <a href="mailto:LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 11.09.2006
- */
 #include "glamour/OrthogonalCamera.h"
-using namespace Glamour;
-//==========================================================
-//Конструктор по умолчанию
+namespace Glamour {
+
 OrthogonalCamera::OrthogonalCamera():
     Camera(),
     wMin(-1.0,-1.0,-1.0),
     wMax(1.0,1.0,1.0)
 {
 }
-//==========================================================
-//Конструктор копирования
+
 OrthogonalCamera::OrthogonalCamera(const OrthogonalCamera& from)
 {
 }
-//==========================================================
-//Оператор присваивания
+
 OrthogonalCamera& OrthogonalCamera::operator=(const OrthogonalCamera& from)
 {
     return *this;
 }
-//==========================================================
-//Деструктор
+
 OrthogonalCamera::~OrthogonalCamera()
 {
 }
-//==========================================================
+
 OrthogonalCamera::OrthogonalCamera(
     const vec3& pos,
     const vec3& dir,
@@ -65,3 +52,4 @@ void OrthogonalCamera::build()
     buildView();
 }
 
+} // namespace Glamour

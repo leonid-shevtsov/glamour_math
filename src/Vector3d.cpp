@@ -1,32 +1,20 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса Vector3d
- * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 23.08.2006
- */
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include "glamour/Vector3d.h"
 namespace Glamour{
-//==========================================================
-//Конструктор по умолчанию
+
 Vector3d::Vector3d():
     x(0.0),y(0.0),z(0.0)
 {
 }
-//==========================================================
-//Конструктор копирования
+
 Vector3d::Vector3d(const Vector3d& from):
     x(from.x),
     y(from.y),
     z(from.z)
 {
 }
-//==========================================================
-//Оператор присваивания
+
 Vector3d& Vector3d::operator=(const Vector3d& from)
 {
     x=from.x;
@@ -34,13 +22,11 @@ Vector3d& Vector3d::operator=(const Vector3d& from)
     z=from.z;
     return *this;
 }
-//==========================================================
-//Деструктор
+
 Vector3d::~Vector3d()
 {
 }
-//==========================================================
-//Поэлементный конструктор
+
 Vector3d::Vector3d(const float X,const float Y,const float Z):
     x(X),y(Y),z(Z)
 {
@@ -55,7 +41,7 @@ Vector3d::Vector3d(const Vector2d& v):
     x(v.x),y(v.y),z(0.0f)
 {
 }
-//==========================================================
+
 float Vector3d::norm() const
 {
     return sqrt(x*x+y*y+z*z);
@@ -143,6 +129,7 @@ Vector3d Vector3d::randomColor()
     return Vector3d(rand()/float(RAND_MAX),rand()/float(RAND_MAX),rand()/float(RAND_MAX));
 }
 
+/*
 Vector3d Vector3d::randomSphereDelta(float radius)
 {
     return 0.0;
@@ -155,5 +142,6 @@ Vector3d Vector3d::randomCubeDelta(float side)
         (rand()/float(RAND_MAX)-0.5)*side,
         (rand()/float(RAND_MAX)-0.5)*side);
 }
+*/
 
-} //namespace
+} //namespace Glamour

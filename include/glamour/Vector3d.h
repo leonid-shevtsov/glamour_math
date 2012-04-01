@@ -1,12 +1,3 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Определение класса Vector3d
- * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 23.08.2006
- */
 #ifndef GLA_Vector3d_h
 #define GLA_Vector3d_h
 
@@ -14,136 +5,99 @@
 
 namespace Glamour
 {
-    /// Трехмерный вектор
-    /**
-     * @todo Операции над векторами
-     * @author <a href="mailto:LeonidShevtsov@gmail.com">Леонид Шевцов</a>
-     * @version 0.3
-     * Набор операторов расширен.
-     * @date 27.09.2006
-     * !!! Важно !!!
-     * Поскольку операции & и ^ имеют меньший приоритет, чем
-     * + и -, то операция ^ (векторное умножение) изменена на
-     * *. Операция & (скалярное умножение) не так опасна, так как
-     * выражение
-     * @code
-     * float f,a;
-     * Vector3d v1,v2;
-     * f=a+v1&v2; // f = (a+v1)&v2;
-     * @endcode
-     * требует сложения числа и вектора, что невозможно, а выражение
-     * @code
-     * Vector3d u,q,v1,v2;
-     * q=u+v1^v2; // q = (u+v1)^v2;
-     * @endcode
-     * вполне корректно и не вызовет ошибку.
-     *
-     * Ввиду этого операции над векторами выполняются так:
-     * @code
-     * x=u+v1*v2; // векторное умножение
-     * x=a+(v1&v2); //скалярное умножение
-     * @endcode
-     * @version 0.2
-     * Набор операций расширен: norm,normSq,normalise
-     * @date 11.09.2006
-     * @version 0.1
-     * @date 23.08.2006
+    /** Three-dimensional vector type
+     *  Note: vector multiplication is *. Scalar multiplication is &.
+     *  This is to preserve correct operator priority.
      */
     class Vector3d
     {
     public:
-//==========================================================
-///@name Необходимые операции
-///@{
-        ///Конструктор по умолчанию
-        /**
-         * Создает нулевой вектор
+        float x;
+        float y;
+        float z;
+        
+        /** Creates a zero vector
          */
         Vector3d();
-        ///Конструктор копирования
-        /**
-         * @param from Исходный объект
-         */
-        Vector3d(const Vector3d& from);
-        ///Оператор присваивания
-        /**
-         * @param from Исходный объект
-         * @return Данный объект
-         */
-        Vector3d& operator=(const Vector3d& from);
-        ///Деструктор
-        ~Vector3d();
-///@}
-//==========================================================
-///@name Конструкторы
-///@{
-    ///Поэлементный конструктор
-    Vector3d(const float f);
-    Vector3d(const float X,const float Y,const float Z);
-    Vector3d(const Vector2d& v);
-///@}
-//==========================================================
-///@name Свойства
-///@{
-    ///Длина (норма)
-    float norm() const;
-    ///Длина в квадрате
-    float normSq() const;
-///@}
-//==========================================================
-///@name Операторы
-///@{
-    operator float*();
-    ///Сложение
-    friend Vector3d operator+(const Vector3d& u,const Vector3d& v);
-    ///Вычитание
-    friend Vector3d operator-(const Vector3d& u,const Vector3d& v);
-    ///Умножение на скаляр
-    friend Vector3d operator*(const Vector3d& v,const float f);
-    ///Умножение на скаляр
-    friend Vector3d operator*(const float f,const Vector3d& v);
-    ///Векторное умножение
-    friend Vector3d operator*(const Vector3d& u,const Vector3d& v);
-    ///Деление на скаляр
-    friend Vector3d operator/(const Vector3d& v,const float f);
-    ///Обратный вектор
-    friend Vector3d operator-(const Vector3d& v);
-    ///Скалярное произведение
-    friend float operator&(const Vector3d& u,const Vector3d& v);
 
-    ///Умножение на скаляр
-    friend Vector3d& operator*=(Vector3d& v,const float f);
-    friend Vector3d& operator+=(Vector3d& u,const Vector3d& v);
-///@}
-//==========================================================
-///@name Методы
-///@{
-    Vector3d& normalize();
-    Vector3d getNormalize() const;
-///@}
-//==========================================================
-///@name Фабрики
-///@{
-    static Vector3d randomColor();
-    static Vector3d randomSphereDelta(float radius);
-    static Vector3d randomCubeDelta(float side);
-///@}
-//==========================================================
-///@name Члены
-///@{
-    public:
-    ///координата
-    float x;
-    ///координата
-    float y;
-    ///координата
-    float z;
-    protected:
-    private:
-///@}
-//==========================================================
+        /** Initialize all components with the same value
+         *  Creates (f, f, f) 
+         */
+        Vector3d(const float f);
+
+        /** Per-component constructor
+         *  Creates (X, Y, Z)
+         */
+        Vector3d(const float X,const float Y,const float Z);
+
+        /** Typecast from 2D vector
+         *  Creates (v.x, v.y, 0)
+         */
+        Vector3d(const Vector2d& v);
+
+        /** Norm (length)
+         */
+        float norm() const;
+
+        /** Norm squared
+         *  Faster than norm(), could be useful for sorting vectors by length
+         */
+        float normSq() const;
+
+        /** Typecast into float array
+         */
+        operator float*();
+
+        friend Vector3d operator+(const Vector3d& u,const Vector3d& v);
+        friend Vector3d operator-(const Vector3d& u,const Vector3d& v);
+
+        friend Vector3d operator*(const Vector3d& v,const float f);
+        friend Vector3d operator*(const float f,const Vector3d& v);
+        friend Vector3d operator/(const Vector3d& v,const float f);
+
+        /** Vector multiplication
+         */
+        friend Vector3d operator*(const Vector3d& u,const Vector3d& v);
+
+        /** Per-component negation
+         */
+        friend Vector3d operator-(const Vector3d& v);
+
+        /** Scalar multiplication
+         *  @warn can cause operator precendence errors. You'll notice them
+         *  because scalar multiplication returns a number, not a vector.
+         */
+        friend float operator&(const Vector3d& u,const Vector3d& v);
+
+        friend Vector3d& operator*=(Vector3d& v,const float f);
+        friend Vector3d& operator+=(Vector3d& u,const Vector3d& v);
+
+        /** In-place normalization
+         *  Makes a vector of the same orientation with a norm of 1. 
+         */
+        Vector3d& normalize();
+
+        /** Normalization
+         *  Returns a vector of the same orientation with a norm of 1.
+         */
+        Vector3d getNormalize() const;
+
+        /** Random color
+         *  Returns a vector of three random values in the [0, 1) range
+         */
+        static Vector3d randomColor();
+
+        // TODO figure out these methods
+        //static Vector3d randomSphereDelta(float radius);
+        //static Vector3d randomCubeDelta(float side);
+
+        Vector3d(const Vector3d& from);
+        Vector3d& operator=(const Vector3d& from);
+        ~Vector3d();
     };
-    ///Короткое название для класса Vector3d
+
+    /** Shorthand type name for Vector3d
+     */
     typedef Vector3d vec3;
 }
 #endif

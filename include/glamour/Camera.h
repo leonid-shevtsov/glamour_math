@@ -26,8 +26,6 @@ namespace Glamour
         
         virtual void build()=0;
         virtual void buildView();
-        void apply();
-        void resetView();
 
         vec3 p;
         vec3 u;

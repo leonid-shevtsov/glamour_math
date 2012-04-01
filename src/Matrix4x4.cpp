@@ -1,18 +1,9 @@
-//$CopyrightMessageStart$
-//$CopyrightMessageEnd$
-/**
- * @file
- * Реализация класса Matrix4x4
- * @author <a href="LeonidShevtsov@gmail.com">Леонид Шевцов</a>
- * @version 0.1
- * @date 21.08.2006
- */
 #include <cstring>
-#include <math.h>
+#include <cmath>
 #include "glamour/Matrix4x4.h"
-using namespace Glamour;
-//==========================================================
-//Конструктор по умолчанию
+
+namespace Glamour {
+
 Matrix4x4::Matrix4x4()
 {
     data[ 0]=1.0; data[ 1]=0.0; data[ 2]=0.0; data[ 3]=0.0;
@@ -20,26 +11,22 @@ Matrix4x4::Matrix4x4()
     data[ 8]=0.0; data[ 9]=0.0; data[10]=1.0; data[11]=0.0;
     data[12]=0.0; data[13]=0.0; data[14]=0.0; data[15]=1.0;
 }
-//==========================================================
-//Конструктор копирования
+
 Matrix4x4::Matrix4x4(const Matrix4x4& from)
 {
     memcpy(data,from.data,16*sizeof(float));
 }
-//==========================================================
-//Оператор присваивания
+
 Matrix4x4& Matrix4x4::operator=(const Matrix4x4& from)
 {
     memcpy(data,from.data,16*sizeof(float));
     return *this;
 }
-//==========================================================
-//Деструктор
+
 Matrix4x4::~Matrix4x4()
 {
 }
-//==========================================================
-//Конструктор диагональной матрицы
+
 Matrix4x4::Matrix4x4(const float a)
 {
     data[ 0]=  a; data[ 1]=0.0; data[ 2]=0.0; data[ 3]=0.0;
@@ -47,8 +34,7 @@ Matrix4x4::Matrix4x4(const float a)
     data[ 8]=0.0; data[ 9]=0.0; data[10]=  a; data[11]=0.0;
     data[12]=0.0; data[13]=0.0; data[14]=0.0; data[15]=  a;
 }
-//==========================================================
-//Поэлементный конструктор
+
 Matrix4x4::Matrix4x4(
     const float a00,const float a10,
     const float a20,const float a30,
@@ -64,18 +50,17 @@ Matrix4x4::Matrix4x4(
     data[ 2]=a02; data[ 6]=a12; data[10]=a22; data[14]=a32;
     data[ 3]=a03; data[ 7]=a13; data[11]=a23; data[15]=a33;
 }
-//==========================================================
+
 float& Matrix4x4::operator[](const int i)
 {
     return data[i];
 }
-//==========================================================
+
 Matrix4x4::operator float*()
 {
     return data;
 }
-//==========================================================
-//Умножение на число
+
 Matrix4x4& Matrix4x4::operator*=(const float k)
 {
     data[ 0]*=k;data[ 1]*=k;data[ 2]*=k;data[ 3]*=k;
@@ -84,24 +69,21 @@ Matrix4x4& Matrix4x4::operator*=(const float k)
     data[12]*=k;data[13]*=k;data[14]*=k;data[15]*=k;
     return *this;
 }
-//==========================================================
-//Умножение на число
-Matrix4x4 Glamour::operator*(const Matrix4x4& matrix,const float k)
+
+Matrix4x4 operator*(const Matrix4x4& matrix,const float k)
 {
     Matrix4x4 m=matrix;
     m*=k;
     return m;
 }
-//==========================================================
-//Умножение на число
-Matrix4x4 Glamour::operator*(const float k,const Matrix4x4& matrix)
+
+Matrix4x4 operator*(const float k,const Matrix4x4& matrix)
 {
     Matrix4x4 m=matrix;
     m*=k;
     return m;
 }
-//==========================================================
-//Матричное умножение
+
 Matrix4x4 Matrix4x4::mulMatrix(const Matrix4x4& b)
 {
     Matrix4x4 c;
@@ -159,7 +141,7 @@ Matrix4x4 Matrix4x4::mulMatrix(const Matrix4x4& b)
     return c;
 }
 
-Matrix4x4 Glamour::operator*(const Matrix4x4& a,const Matrix4x4& b)
+Matrix4x4 operator*(const Matrix4x4& a,const Matrix4x4& b)
 {
     Matrix4x4 c;
     c.data[ 0]=
@@ -214,8 +196,7 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
     *this=(*this)*m;
     return *this;
 }
-//==========================================================
-//Транспонирование
+
 void Matrix4x4::transpose()
 {
     float t;
@@ -226,16 +207,14 @@ void Matrix4x4::transpose()
     t=data[ 7];data[ 7]=data[13];data[13]=t;
     t=data[11];data[11]=data[14];data[14]=t;
 }
-//==========================================================
-//Транспонирование
+
 Matrix4x4 Matrix4x4::getTranspose()
 {
     Matrix4x4 m(*this);
     m.transpose();
     return m;
 }
-//==========================================================
-//Применение к вектору
+
 Vector3d Matrix4x4::applyToVector(const Vector3d& v)
 {
     return Vector3d(
@@ -244,8 +223,7 @@ Vector3d Matrix4x4::applyToVector(const Vector3d& v)
         data[2]*v.x+data[6]*v.y+data[10]*v.z
     );
 }
-//==========================================================
-//Применение к точке
+
 Vector3d Matrix4x4::applyToPoint(const Vector3d& p)
 {
     return Vector3d(
@@ -265,8 +243,7 @@ Vector3d Matrix4x4::applyToVectorW(const Vector3d& v)
         (data[2]*v.x+data[6]*v.y+data[10]*v.z)*w_1
     );
 }
-//==========================================================
-//Применение к точке с учетом W
+
 Vector3d Matrix4x4::applyToPointW(const Vector3d& p)
 {
     float w_1=1.0/(data[3]*p.x+data[7]*p.y+data[11]*p.z+data[15]);
@@ -276,14 +253,12 @@ Vector3d Matrix4x4::applyToPointW(const Vector3d& p)
         (data[2]*p.x+data[6]*p.y+data[10]*p.z+data[14])*w_1
     );
 }
-//==========================================================
-//Получение элемента
+
 float& Matrix4x4::element(const int i,const int j)
 {
     return data[i*4+j];
 }
-//==========================================================
-//Матрица перемещения
+
 Matrix4x4 Matrix4x4::createTranslate(const Vector3d& t)
 {
     return Matrix4x4
@@ -294,8 +269,7 @@ Matrix4x4 Matrix4x4::createTranslate(const Vector3d& t)
         0.0,0.0,0.0,1.0
     );
 }
-//==========================================================
-//Матрица масштабирования
+
 Matrix4x4 Matrix4x4::createScale(const Vector3d& s)
 {
     return Matrix4x4
@@ -306,8 +280,7 @@ Matrix4x4 Matrix4x4::createScale(const Vector3d& s)
         0.0,0.0,0.0,1.0
     );
 }
-//==========================================================
-//Матрица вращения по X
+
 Matrix4x4 Matrix4x4::createRotateX(const float a)
 {
     float c=cos(a);
@@ -320,8 +293,7 @@ Matrix4x4 Matrix4x4::createRotateX(const float a)
         0.0,0.0,0.0,1.0
     );
 }
-//==========================================================
-//Матрица вращения по Y
+
 Matrix4x4 Matrix4x4::createRotateY(const float a)
 {
     float c=cos(a);
@@ -334,8 +306,7 @@ Matrix4x4 Matrix4x4::createRotateY(const float a)
         0.0,0.0,0.0,1.0
     );
 }
-//==========================================================
-//Матрица вращения по Z
+
 Matrix4x4 Matrix4x4::createRotateZ(const float a)
 {
     float c=cos(a);
@@ -348,3 +319,5 @@ Matrix4x4 Matrix4x4::createRotateZ(const float a)
         0.0,0.0,0.0,1.0
     );
 }
+
+} // namespace Glamour
