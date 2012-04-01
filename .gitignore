@@ -1,5 +1,10 @@
 *.lib
 *.a
+*.vcxproj*
+*.sdf
+*.sln
+*.suo
+ipch
 CMakeCache.txt
 CMakeFiles
 Makefile

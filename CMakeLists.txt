@@ -4,4 +4,6 @@ project (glamour_math)
 include_directories (include)
 
 aux_source_directory(src SRC)
-add_library (gla_math ${SRC})
+aux_source_directory(include HEADERS)
+
+add_library (gla_math ${SRC} ${HEADERS})
